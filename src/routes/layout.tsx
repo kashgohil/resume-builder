@@ -17,12 +17,12 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 
 export default component$(() => {
   return (
-    <>
+    <div class='h-screen bg-stone-950'>
       <Header />
       <main>
         <Slot />
       </main>
       <Footer />
-    </>
+    </div>
   );
 });
