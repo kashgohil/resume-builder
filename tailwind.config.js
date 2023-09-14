@@ -45,7 +45,11 @@ module.exports = {
       900: "900px",
       1000: "1000px",
     },
-    extend: {},
+    extend: {
+      colors: {
+        ash: "#858585",
+      },
+    },
   },
   plugins: [],
 };

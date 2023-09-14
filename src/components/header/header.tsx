@@ -13,11 +13,6 @@ export const Header = component$(() => {
             <h1 class='text-2xl text-slate-200'>Resume Builder</h1>
             <h3 class='text-base text-gray-500'>make it yours</h3>
           </div>
-          <div>
-            <button class='outline-none bg-gray-300 p-8 rounded'>
-              Toggle
-            </button>
-          </div>
         </div>
       </header>
     </>
