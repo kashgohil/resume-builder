@@ -7,7 +7,6 @@ interface InputProps extends InputType {
   value?: string;
   class?: string;
   fontSize?: number;
-  // actions
 }
 
 export default component$((props: InputProps) => {
@@ -17,7 +16,7 @@ export default component$((props: InputProps) => {
   // states
   const editing = useSignal<boolean>(false);
 
-  if (!editing.value) {
+  if (false && !editing.value) {
     return (
       <div
         class={`text-[${fontSize}px] ${classes}`}
@@ -33,7 +32,7 @@ export default component$((props: InputProps) => {
       value={value}
       onChange$={onChange$}
       onBlur$={() => { editing.value = !editing.value; }}
-      class={`text-[${fontSize}px] ${classes} underline outline-none bg-transparent`}
+      class={`text-[${fontSize}px] ${classes} outline-none bg-transparent focus:underline`}
     />
   )
 })
