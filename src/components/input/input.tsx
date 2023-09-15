@@ -11,15 +11,15 @@ interface InputProps extends InputType {
 
 export default component$((props: InputProps) => {
   // props and metadata
-  const { class: classes, value = '', fontSize = 24, onChange$ } = props;
+  const { class: classes, name, value = '', fontSize = 24, onChange$ } = props;
 
   // states
   const editing = useSignal<boolean>(false);
 
-  if (false && !editing.value) {
+  if (!editing.value) {
     return (
       <div
-        class={`text-[${fontSize}px] ${classes}`}
+        class={`${classes}`}
         onClick$={() => { editing.value = !editing.value; }}
       >
         {value}
@@ -29,10 +29,13 @@ export default component$((props: InputProps) => {
 
   return (
     <input
+      name={name}
       value={value}
       onChange$={onChange$}
+      autoFocus={editing.value}
+      multiple={props.multiple}
       onBlur$={() => { editing.value = !editing.value; }}
-      class={`text-[${fontSize}px] ${classes} outline-none bg-transparent focus:underline`}
+      class={`${classes} outline-none bg-transparent underline`}
     />
   )
 })

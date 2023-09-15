@@ -4,12 +4,18 @@ import Input from "~/components/input/input";
 import { TemplateType } from "~/constants";
 import { EmailIcon, GithubIcon, LinkedInIcon, PhoneIcon } from "~/icons";
 import { Template } from "~/types";
-import styles from './builder.module.css';
+import styles from './default.module.css';
+import Education from "./education";
+import Experience from "./experience";
+import Interests from "./interests";
+import Projects from "./projects";
+import Skills from "./skills";
 
 const DEFAULT_TEMPLATE: Template = {
   type: TemplateType.DEFAULT,
   sections: {
     header: {
+      sectionLabel: 'Header',
       name: 'Kashyap Gohil',
       description: 'Senior Software Engineer',
       postScript: 'Learning new things and having fun while at it',
@@ -19,60 +25,76 @@ const DEFAULT_TEMPLATE: Template = {
         email: '',
         phone: ''
       }
+    },
+    experience: {
+      sectionLabel: 'Experience',
+      list: []
+    },
+    education: {
+      sectionLabel: 'Education',
+      list: []
+    },
+    skills: {
+      sectionLabel: 'Skills',
+      list: []
+    },
+    projects: {
+      sectionLabel: 'Projects',
+      list: []
+    },
+    interests: {
+      sectionLabel: 'Interests',
+      list: []
     }
   }
 }
 
 export default component$(() => {
   // states
-  const template = useStore<Template>(DEFAULT_TEMPLATE, { deep: false });
+  const template = useStore<Template>(DEFAULT_TEMPLATE);
 
   // actions
-  const updateHeaderProperty = (key: string) => {
-    return $((e: QwikChangeEvent<HTMLInputElement>) => {
-      template.sections.header[key] = e.target.value;
-    })
-  }
+  const updateHeaderProperty = $((e: QwikChangeEvent<HTMLInputElement>) => {
+    template.sections.header[e.target.name] = e.target.value;
+  })
 
-  const updateProfileProperty = (key: string) => {
-    return $((e: QwikChangeEvent<HTMLInputElement>) => {
-      template.sections.header.profiles[key] = e.target.value;
-    })
-  }
+  const updateProfileProperty = $((e: QwikChangeEvent<HTMLInputElement>) => {
+    template.sections.header.profiles[e.target.name] = e.target.value;
+  })
 
+  // renderers
   function renderHeader() {
-
     return (
       <div class='flex justify-between w-full items-start'>
         <div class='w-1/2'>
           <Input
-            fontSize={36}
-            class="w-full"
+            name="name"
+            class="w-full text-[36px]"
+            onChange$={updateHeaderProperty}
             value={template.sections.header.name}
-            onChange$={updateHeaderProperty('name')}
           />
           <Input
-            fontSize={16}
-            class="text-gray-300 mt-8 w-full"
+            name='description'
+            onChange$={updateHeaderProperty}
             value={template.sections.header.description}
-            onChange$={updateHeaderProperty('description')}
+            class="text-gray-300 mt-8 w-full text-[16px]"
           />
           <Input
-            fontSize={14}
-            class="text-gray-400 mt-4 w-full"
+            name='postScript'
+            onChange$={updateHeaderProperty}
             value={template.sections.header.postScript}
-            onChange$={updateHeaderProperty('postScript')}
+            class="text-gray-400 mt-4 w-full text-[14px]"
           />
         </div>
 
         <div class='w-1/2'>
           <div class='flex items-center justify-end'>
             <Input
-              fontSize={12}
+              name='github'
               placeholder="Github"
-              class='mr-8 text-gray-400 text-end w-full'
-              onChange$={updateProfileProperty('github')}
+              onChange$={updateProfileProperty}
               value={template.sections.header.profiles.github}
+              class='mr-8 text-gray-400 text-end w-full text-[12px]'
             />
             <a href={template.sections.header.profiles.github} target="__blank">
               <GithubIcon color="white" height="20" width="20" />
@@ -80,11 +102,11 @@ export default component$(() => {
           </div>
           <div class='flex items-center justify-end'>
             <Input
-              fontSize={12}
+              name='linkedIn'
               placeholder="LinkedIn"
-              class='mr-8 text-gray-400 text-end w-full'
-              onChange$={updateProfileProperty('linkedIn')}
+              onChange$={updateProfileProperty}
               value={template.sections.header.profiles.linkedIn}
+              class='mr-8 text-gray-400 text-end w-full text-[12px]'
             />
             <a href={template.sections.header.profiles.linkedIn} target="__blank">
               <LinkedInIcon color="white" height="20" width="20" />
@@ -92,21 +114,21 @@ export default component$(() => {
           </div>
           <div class='flex items-center justify-end'>
             <Input
-              fontSize={12}
+              name='email'
               placeholder="Email"
-              class='mr-8 text-gray-400 text-end w-full'
-              onChange$={updateProfileProperty('email')}
+              onChange$={updateProfileProperty}
               value={template.sections.header.profiles.email}
+              class='mr-8 text-gray-400 text-end w-full text-[12px]'
             />
             <EmailIcon color="white" class='px-2' height="20" width="20" />
           </div>
           <div class='flex items-center justify-end'>
             <Input
-              fontSize={12}
+              name='phone'
               placeholder="Phone Number"
-              class='mr-8 text-gray-400 text-end w-full'
-              onChange$={updateProfileProperty('phone')}
+              onChange$={updateProfileProperty}
               value={template.sections.header.profiles.phone}
+              class='mr-8 text-gray-400 text-end w-full text-[12px]'
             />
             <PhoneIcon color="white" height="20" width="20" />
           </div>
@@ -115,18 +137,26 @@ export default component$(() => {
     )
   }
 
+
   function renderContent() {
     return (
       <div class='w-full flex flex-1 pt-20'>
-        <div class='w-1/2 border-r-[1px] border-gray-500'></div>
-        <div class='w-1/2'></div>
+        <div class='w-1/2 border-r-[1px] border-gray-500 pr-12 space-y-20'>
+          <Experience experience={template.sections.experience} />
+          <Education education={template.sections.education} />
+        </div>
+        <div class='w-1/2 pl-12 space-y-20'>
+          <Projects projects={template.sections.projects} />
+          <Skills skills={template.sections.skills} />
+          <Interests interests={template.sections.interests} />
+        </div>
       </div>
     )
   }
 
   return (
     <div class='py-30 flex justify-center items-center'>
-      <div class={`${styles.page} p-20 flex flex-col text-slate-200 font-serif`}>
+      <div class={`${styles.page} p-20 flex flex-col text-slate-200`}>
         {renderHeader()}
         {renderContent()}
       </div>

@@ -17,7 +17,7 @@ export default component$(() => {
           </div>
         </div>
         <div class='flex items-center justify-center'>
-          <Button variant='link' to='/builder'>
+          <Button variant='link' to='/default'>
             Create Your Resume
           </Button>
         </div>
