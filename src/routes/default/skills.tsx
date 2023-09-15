@@ -24,7 +24,7 @@ const Skills = component$<Props>((props) => {
   })
 
   const updateSkillsListProperty = (index: number) => $((e: QwikChangeEvent<HTMLInputElement>) => {
-    props.skills[index][e.target.name] = e.target.value;
+    props.skills.list[index][e.target.name] = e.target.value;
   });
 
   //effects

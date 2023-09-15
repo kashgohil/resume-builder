@@ -44,3 +44,28 @@ body {
   box-sizing: border-box;
   /* font-family: "Balsamiq Sans", cursive; */
 }
+
+@media print {
+  body *:not(.print-resume, .print-resume *) {
+    visibility: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  @page {
+    size: 210mm 298mm;
+    margin: 0 !important;
+  }
+
+  .hide-in-print {
+    display: none;
+  }
+
+  .print-resume {
+    margin: 0;
+    visibility: visible;
+  }
+  .print-resume * {
+    visibility: visible;
+  }
+}

@@ -156,7 +156,7 @@ export default component$(() => {
 
   return (
     <div class='py-30 flex justify-center items-center'>
-      <div class={`${styles.page} p-20 flex flex-col text-slate-200`}>
+      <div class={`${styles.page} p-20 flex flex-col text-slate-200 print-resume`}>
         {renderHeader()}
         {renderContent()}
       </div>

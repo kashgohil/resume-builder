@@ -24,7 +24,7 @@ const Interests = component$<Props>((props) => {
   })
 
   const updateInterestsListProperty = (index: number) => $((e: QwikChangeEvent<HTMLInputElement>) => {
-    props.interests[index][e.target.name] = e.target.value;
+    props.interests.list[index][e.target.name] = e.target.value;
   });
 
   //effects

@@ -7,7 +7,7 @@ export const Header = component$(() => {
 
   return (
     <>
-      <header class='sticky top-0 w-full left-0 pb-30 transparent'>
+      <header class='sticky top-0 w-full left-0 pb-30 transparent hide-in-print'>
         <div class='px-30 pt-30 flex items-center justify-between w-full backdrop-blur-md'>
           <div>
             <h1 class='text-2xl text-slate-200'>Resume Builder</h1>
