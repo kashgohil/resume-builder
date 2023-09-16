@@ -1,4 +1,4 @@
-import { component$, useSignal, type QwikIntrinsicElements } from "@builder.io/qwik";
+import { $, QwikChangeEvent, QwikIntrinsicElements, component$, useSignal, useTask$ } from "@builder.io/qwik";
 
 type InputType = QwikIntrinsicElements['input'];
 
@@ -6,36 +6,50 @@ interface InputProps extends InputType {
   // metadata
   value?: string;
   class?: string;
-  fontSize?: number;
+  onChange$?: (event: QwikChangeEvent<HTMLInputElement>) => any;
 }
 
-export default component$((props: InputProps) => {
+export default component$<InputProps>((props) => {
   // props and metadata
-  const { class: classes, name, value = '', fontSize = 24, onChange$ } = props;
 
   // states
+  const value = useSignal<any>(props.value);
   const editing = useSignal<boolean>(false);
 
-  if (!editing.value) {
+  // actions
+  const onChange = $((e: QwikChangeEvent<HTMLInputElement>) => {
+    value.value = e.target.value;
+    props.onChange$?.(e);
+  })
+
+  useTask$(({ track }) => {
+    track(() => props.value);
+    if (value.value !== props.value) {
+      value.value = props.value;
+    }
+  })
+
+  // renderers
+  if (value.value && !editing.value) {
     return (
       <div
-        class={`${classes}`}
+        class={`${props.class} leading-normal`}
         onClick$={() => { editing.value = !editing.value; }}
       >
-        {value}
+        {value.value}
       </div>
     )
   }
 
   return (
     <input
-      name={name}
-      value={value}
-      onChange$={onChange$}
+      name={props.name}
+      value={value.value}
+      onChange$={onChange}
       autoFocus={editing.value}
       multiple={props.multiple}
       onBlur$={() => { editing.value = !editing.value; }}
-      class={`${classes} outline-none bg-transparent underline`}
+      class={`${props.class} outline-none bg-transparent underline`}
     />
   )
 })
